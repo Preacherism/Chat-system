@@ -1,0 +1,596 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Model" referent="RBXC15F59A0BCAF458DB0F05DD607A644B6">
+		<Properties>
+			<CoordinateFrame name="ModelInPrimary">
+				<X>0</X>
+				<Y>0</Y>
+				<Z>0</Z>
+				<R00>1</R00>
+				<R01>0</R01>
+				<R02>0</R02>
+				<R10>0</R10>
+				<R11>1</R11>
+				<R12>0</R12>
+				<R20>0</R20>
+				<R21>0</R21>
+				<R22>1</R22>
+			</CoordinateFrame>
+			<string name="Name">chat</string>
+			<Ref name="PrimaryPart">null</Ref>
+		</Properties>
+		<Item class="Folder" referent="RBX73C1405901314FC0BDA06A5B85F380D6">
+			<Properties>
+				<string name="Name">put children in serverscriptservice</string>
+			</Properties>
+			<Item class="Script" referent="RBX5054BAF16E19434C990B587A1F9537E0">
+				<Properties>
+					<bool name="Disabled">false</bool>
+					<Content name="LinkedSource"><null></null></Content>
+					<string name="Name">chatScript</string>
+					<string name="ScriptGuid"></string>
+					<ProtectedString name="Source"><![CDATA[local re = game.ReplicatedStorage.chatRE;
+local rf = game.ReplicatedStorage.chatRF;
+local chatService = game:GetService("Chat")
+
+
+local chat = {
+	msgs = {};
+	channels = {};
+	maxMsgs = 10;
+}
+
+
+
+
+game.Players.PlayerAdded:connect(function(plr)
+	local msg = plr.Name.." has connected."
+	re:FireAllClients({nil, msg})
+	table.insert(chat.msgs, {nil, msg})
+end)
+
+game.Players.PlayerRemoving:connect(function(plr)
+	local msg = plr.Name.." has disconnected."
+	re:FireAllClients({nil, msg})
+	table.insert(chat.msgs, {nil, msg})
+end)
+
+
+
+
+re.OnServerEvent:connect(function(plr, msg)
+	table.insert(chat.msgs, {plr.Name, msg})
+	if #chat.msgs > 10 then
+		table.remove(chat.msgs, 1)
+	end
+	for i,v in pairs(game.Players:GetPlayers()) do
+		local fm = chatService:FilterStringAsync(msg, plr, v)
+		re:FireClient(v, {plr.Name, fm})
+	end
+end)
+
+function rf.OnServerInvoke(plr)
+	return chat.msgs
+end
+]]></ProtectedString>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX888D2C22DCA04103ABA466DA2640BA86">
+			<Properties>
+				<string name="Name">put children in startergui</string>
+			</Properties>
+			<Item class="ScreenGui" referent="RBX5432E0932F68402BAA9295AF64D445F2">
+				<Properties>
+					<int name="DisplayOrder">0</int>
+					<bool name="Enabled">true</bool>
+					<string name="Name">chatGui</string>
+					<bool name="ResetOnSpawn">true</bool>
+				</Properties>
+				<Item class="Frame" referent="RBX8956A409D6624626BF1501C4F9B635D5">
+					<Properties>
+						<bool name="Active">false</bool>
+						<Vector2 name="AnchorPoint">
+							<X>0</X>
+							<Y>0</Y>
+						</Vector2>
+						<Color3 name="BackgroundColor3">4294967295</Color3>
+						<float name="BackgroundTransparency">1</float>
+						<Color3 name="BorderColor3">4279970357</Color3>
+						<int name="BorderSizePixel">0</int>
+						<bool name="ClipsDescendants">false</bool>
+						<bool name="Draggable">false</bool>
+						<string name="Name">chat</string>
+						<Ref name="NextSelectionDown">null</Ref>
+						<Ref name="NextSelectionLeft">null</Ref>
+						<Ref name="NextSelectionRight">null</Ref>
+						<Ref name="NextSelectionUp">null</Ref>
+						<UDim2 name="Position">
+							<XS>0</XS>
+							<XO>0</XO>
+							<YS>0</YS>
+							<YO>0</YO>
+						</UDim2>
+						<float name="Rotation">0</float>
+						<bool name="Selectable">false</bool>
+						<Ref name="SelectionImageObject">null</Ref>
+						<UDim2 name="Size">
+							<XS>1</XS>
+							<XO>0</XO>
+							<YS>1</YS>
+							<YO>0</YO>
+						</UDim2>
+						<token name="SizeConstraint">0</token>
+						<token name="Style">0</token>
+						<bool name="Visible">true</bool>
+						<int name="ZIndex">1</int>
+					</Properties>
+					<Item class="Frame" referent="RBX2FEF1F45AC0645B891D6896DC8DD05C5">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<Color3 name="BackgroundColor3">4278190080</Color3>
+							<float name="BackgroundTransparency">0.5</float>
+							<Color3 name="BorderColor3">4279970357</Color3>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<string name="Name">input</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0.970000029</YS>
+								<YO>0</YO>
+							</UDim2>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>1</XS>
+								<XO>0</XO>
+								<YS>0.0299999993</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+						<Item class="TextBox" referent="RBX80F27DDE96E540298CF2013AC6FF0224">
+							<Properties>
+								<bool name="Active">true</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<Color3 name="BackgroundColor3">4280953386</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">4279970357</Color3>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClearTextOnFocus">false</bool>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">10</token>
+								<token name="FontSize">5</token>
+								<bool name="MultiLine">false</bool>
+								<string name="Name">txtb</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0.00999999978</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>0</YO>
+								</UDim2>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">true</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<bool name="ShowNativeInput">true</bool>
+								<UDim2 name="Size">
+									<XS>0.99000001</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<string name="Text">PRESS / TO CHAT</string>
+								<Color3 name="TextColor3">4294967295</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">14</float>
+								<Color3 name="TextStrokeColor3">4278190080</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<bool name="TextWrapped">false</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">1</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">2</int>
+							</Properties>
+						</Item>
+					</Item>
+					<Item class="Frame" referent="RBX39FCA00ECCD64AB7BE631F798F84158F">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<Color3 name="BackgroundColor3">4294967295</Color3>
+							<float name="BackgroundTransparency">1</float>
+							<Color3 name="BorderColor3">4279970357</Color3>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">true</bool>
+							<bool name="Draggable">false</bool>
+							<string name="Name">output</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0.00999999978</XS>
+								<XO>0</XO>
+								<YS>0.699999988</YS>
+								<YO>0</YO>
+							</UDim2>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>0.400000006</XS>
+								<XO>0</XO>
+								<YS>0.25</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<bool name="Visible">true</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+					</Item>
+					<Item class="Frame" referent="RBXC3BB41ACF8A444F39F2266B23A42C923">
+						<Properties>
+							<bool name="Active">false</bool>
+							<Vector2 name="AnchorPoint">
+								<X>0</X>
+								<Y>0</Y>
+							</Vector2>
+							<Color3 name="BackgroundColor3">4279505940</Color3>
+							<float name="BackgroundTransparency">0.600000024</float>
+							<Color3 name="BorderColor3">4279970357</Color3>
+							<int name="BorderSizePixel">0</int>
+							<bool name="ClipsDescendants">false</bool>
+							<bool name="Draggable">false</bool>
+							<string name="Name">template</string>
+							<Ref name="NextSelectionDown">null</Ref>
+							<Ref name="NextSelectionLeft">null</Ref>
+							<Ref name="NextSelectionRight">null</Ref>
+							<Ref name="NextSelectionUp">null</Ref>
+							<UDim2 name="Position">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0</YS>
+								<YO>0</YO>
+							</UDim2>
+							<float name="Rotation">0</float>
+							<bool name="Selectable">false</bool>
+							<Ref name="SelectionImageObject">null</Ref>
+							<UDim2 name="Size">
+								<XS>0</XS>
+								<XO>0</XO>
+								<YS>0.100000001</YS>
+								<YO>0</YO>
+							</UDim2>
+							<token name="SizeConstraint">0</token>
+							<token name="Style">0</token>
+							<bool name="Visible">false</bool>
+							<int name="ZIndex">1</int>
+						</Properties>
+						<Item class="TextLabel" referent="RBX7A6D35074BDE4092AD95679CF3082FAB">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<Color3 name="BackgroundColor3">4294967295</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">4279970357</Color3>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">4</token>
+								<token name="FontSize">5</token>
+								<string name="Name">name</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>0</YO>
+								</UDim2>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<string name="Text"></string>
+								<Color3 name="TextColor3">4294923776</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">14</float>
+								<Color3 name="TextStrokeColor3">4278190080</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<bool name="TextWrapped">true</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">1</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+						<Item class="TextLabel" referent="RBX343CE2FB04C745F4A030DB5E9591F433">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0</X>
+									<Y>0</Y>
+								</Vector2>
+								<Color3 name="BackgroundColor3">4294967295</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">4279970357</Color3>
+								<int name="BorderSizePixel">0</int>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="Draggable">false</bool>
+								<token name="Font">3</token>
+								<token name="FontSize">5</token>
+								<string name="Name">msg</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>0</YS>
+									<YO>0</YO>
+								</UDim2>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<UDim2 name="Size">
+									<XS>0</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<string name="Text"></string>
+								<Color3 name="TextColor3">4294967295</Color3>
+								<bool name="TextScaled">false</bool>
+								<float name="TextSize">14</float>
+								<Color3 name="TextStrokeColor3">4278190080</Color3>
+								<float name="TextStrokeTransparency">1</float>
+								<float name="TextTransparency">0</float>
+								<bool name="TextWrapped">true</bool>
+								<token name="TextXAlignment">0</token>
+								<token name="TextYAlignment">1</token>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+						</Item>
+					</Item>
+				</Item>
+				<Item class="LocalScript" referent="RBXDF1AE67E633540DDB8960C66324173AA">
+					<Properties>
+						<bool name="Disabled">false</bool>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">chatScript</string>
+						<string name="ScriptGuid"></string>
+						<ProtectedString name="Source"><![CDATA[repeat wait() until game.Players.LocalPlayer;
+repeat wait() until game.Players.LocalPlayer.PlayerGui;
+
+--PREACHERISM 1/15/17
+--To change font/color/textsize, edit the template frame. All messages use this template.
+--Questions or concerns, contact me on twitter @Preacherism
+
+
+
+local plr = game.Players.LocalPlayer;
+local pGui = plr.PlayerGui;
+local chatF = pGui.chatGui.chat;
+local inputService = game:GetService("UserInputService")
+local template = chatF.template;
+
+template.Parent = nil;
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+
+
+
+local chat = {
+	msgs = {}; --name, msg, time chatted
+	isTyping = false;
+	maxMsgs = 10; 
+	colors = { 
+		Color3.fromRGB(255, 119, 119), Color3.fromRGB(167, 214, 255),
+		Color3.fromRGB(96, 255, 162),  Color3.fromRGB(233, 153, 255),
+		Color3.fromRGB(255, 201, 156), Color3.fromRGB(255, 240, 160),
+		Color3.fromRGB(255, 189, 230), Color3.fromRGB(227, 216, 197)
+	};
+	leftPadding = 6; --padding between message and right side
+	midPadding = 10; --padding between name and message
+	rightPadding = 6; --padding between name and left side
+	padding = 2; --padding between messages
+	
+	maxSpam = 5; --max messages in interval
+	spamLife = 5; --message interval, messages are only counted in the interval if they are younger than this
+	spam = 0; --current messages being counted
+}
+
+
+
+function chat.type()
+	if chat.spam <= chat.maxSpam then
+		chat.isTyping = true;
+		chatF.input:TweenPosition(UDim2.new(0, 0, 0.97, 0), 1, 4, 0.4, true)
+		wait() --for some reason, without a wait makes it take the slash as input
+		chatF.input.txtb:CaptureFocus()
+		if chatF.input.txtb.Text == "PRESS / TO CHAT" then
+			chatF.input.txtb.Text = "";
+		end
+		chat.spam = chat.spam+1;
+		wait(chat.spamLife)
+		chat.spam = chat.spam-1;
+	else
+		chat.outputMsg(nil, "Please wait before sending another message.")
+		chat.shiftUp()
+	end
+end
+
+
+chatF.input.txtb.FocusLost:connect(function(enterPressed)
+	chat.isTyping = false;
+	chatF.input:TweenPosition(UDim2.new(0, 0, 1, 0), 1, 4, 0.4, true)
+	if enterPressed == true then
+		game.ReplicatedStorage.chatRE:FireServer(chatF.input.txtb.Text)
+		chatF.input.txtb.Text = ""
+		chatF.input.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	end
+end)
+
+
+function chat.outputMsg(name, msg)
+	local frame = template:Clone()
+	frame.Name = "chatMessage"
+	table.insert(chat.msgs, {frame, 1, name, msg})
+	
+	frame.Parent = chatF.output;
+	frame.Visible = true;
+	
+	if name then --creates message in chat
+		local nameColor = chat.getColor(name)
+		frame.name.Text = name..":";
+		frame.name.TextColor3 = nameColor;
+		frame.msg.Text = msg;
+		
+		local nameLen = frame.name.TextBounds.x;
+		local msgLen = frame.msg.TextBounds.x;
+
+		frame.Size = UDim2.new(0, nameLen+msgLen+chat.leftPadding+chat.midPadding+chat.rightPadding, 1/chat.maxMsgs, -chat.padding)
+		frame.name.Size = UDim2.new(0, nameLen, 1, 0)
+		frame.name.Position = UDim2.new(0, chat.leftPadding, 0, 0)
+		frame.msg.Size = UDim2.new(0, msgLen, 1, 0)
+		frame.msg.Position = UDim2.new(0, chat.leftPadding+nameLen+chat.midPadding, 0, 0)
+		frame.Position = UDim2.new(0, 0, 1, 0)
+	else
+		frame.msg.Text = msg;
+		local msgLen = frame.msg.TextBounds.x;
+		
+		frame.Size = UDim2.new(0, msgLen+chat.leftPadding+chat.rightPadding, 1/chat.maxMsgs, -chat.padding)
+		frame.msg.Size = UDim2.new(0, msgLen, 1, 0)
+		frame.msg.Position = UDim2.new(0, chat.leftPadding, 0, 0)
+		frame.Position = UDim2.new(0, 0, 1, 0)
+	end
+end
+
+
+function chat.shiftUp()
+	for i = #chat.msgs, 1, -1 do --moves messages up
+		local order = chat.msgs[i][2];
+		chat.msgs[i][1]:TweenPosition(UDim2.new(0, 0, 1-(1/chat.maxMsgs)*order, 0), 1, 4, 0.5, true)
+		chat.msgs[i][2] = order + 1;
+		if chat.msgs[i][2] > 12 then
+			chat.msgs[i][1]:Destroy()
+			table.remove(chat.msgs, i)
+		end
+	end
+end
+
+
+
+function chat.getColor(name) --credit to @modulum
+	local value	= 0
+	for index = 1, #name do
+		local cValue = string.byte(string.sub(name, index, index))
+		local reverseIndex = #name - index + 1
+		if #name % 2 == 1 then
+			reverseIndex = reverseIndex - 1
+		end
+		if reverseIndex % 4 >= 2 then
+			cValue = -cValue
+		end
+			value = value + cValue
+		end
+	return chat.colors[(value % #chat.colors) + 1]
+end
+
+
+game.ReplicatedStorage.chatRE.OnClientEvent:connect(function(arg) --recieve messages
+	chat.outputMsg(arg[1], arg[2])
+	chat.shiftUp()
+end)
+
+
+chat.msgs = {}
+chatF.output:ClearAllChildren()
+local oldMsgs = game.ReplicatedStorage.chatRF:InvokeServer()
+for i = 1, #oldMsgs do
+	local msg = oldMsgs[i]
+	chat.outputMsg(msg[1], msg[2])
+	chat.shiftUp()
+end
+
+--=============================================================INPUT=============================================================
+
+inputService.InputBegan:connect(function(input)
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		if input.KeyCode == Enum.KeyCode.Slash then
+			if chat.isTyping == false then
+				chat.type(true)
+			end
+		elseif chat.isTyping == true then
+			if chatF.input.txtb.TextBounds.x > chatF.output.AbsoluteSize.x*0.9 then
+				chatF.input.BackgroundColor3 = Color3.fromRGB(230, 95, 100)
+			elseif chatF.input.BackgroundColor3 == Color3.fromRGB(180, 80, 100) then
+				chatF.input.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			end
+		end
+	end
+end)]]></ProtectedString>
+					</Properties>
+				</Item>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX3C313A4D11554F71917C53F052D3D967">
+			<Properties>
+				<string name="Name">put children in replicatedstorage</string>
+			</Properties>
+			<Item class="RemoteFunction" referent="RBX2AF24F54B78B4F69BA13639C1E1743A2">
+				<Properties>
+					<string name="Name">chatRF</string>
+				</Properties>
+			</Item>
+			<Item class="RemoteEvent" referent="RBX43B70BB8A1D14F44AD69972AEB10A151">
+				<Properties>
+					<string name="Name">chatRE</string>
+				</Properties>
+			</Item>
+		</Item>
+	</Item>
+</roblox>
