@@ -1,5 +1,5 @@
 # Chat-system
-Simple, elegant, flexible & lightweight chat system for Roblox.
+Simple, flexible, & lightweight chat system for Roblox.
 
 
 Code is somewhat organized & commented.
