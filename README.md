@@ -2,5 +2,5 @@
 Simple, elegant, lightweight chat system for Roblox.
 
 
-Code is somewhat organied & commented.
+Code is somewhat organized & commented.
 Use and edit this chat system freely.
